@@ -121,6 +121,21 @@ public class ScrollingGame extends GameEngine {
                 super.setSplashImage(null);
             return;
         }
+        else{
+            if(key == UP_KEY){
+                player.setY(player.getY() - player.getMovementSpeed());
+            }
+            else if(key == DOWN_KEY){
+                player.setY(player.getY() + player.getMovementSpeed());
+            }
+            else if(key == RIGHT_KEY){
+                player.setX(player.getX() + player.getMovementSpeed());
+            }
+            else if(key == LEFT_KEY){
+                player.setX(player.getX() - player.getMovementSpeed());
+            }
+            
+        }
   }    
   
     
