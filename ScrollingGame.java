@@ -119,20 +119,39 @@ public class ScrollingGame extends GameEngine {
                 isPaused = false;
             }
         } else {
-            if (key == UP_KEY) {
-                player.setY(player.getY() - player.getMovementSpeed());
-            } else if (key == DOWN_KEY) {
-                player.setY(player.getY() + player.getMovementSpeed());
-            } else if (key == RIGHT_KEY) {
-                player.setX(player.getX() + player.getMovementSpeed());
-            } else if (key == LEFT_KEY) {
-                player.setX(player.getX() - player.getMovementSpeed());
-            } else if (key == KEY_PAUSE_GAME) {
+            for(int moveKey: MOVEMENT_KEYS){
+                if(key == moveKey)
+                    moving(key);
+            }
+           
+            if (key == KEY_PAUSE_GAME) {
                 isPaused = true;
             }
 
         }
     }
+
+    public void moving(int key){
+        if(key == UP_KEY){
+            int change = player.getY() - player.getMovementSpeed();
+            if(change >= 0)
+                player.setY(change);
+        }
+        else if(key == DOWN_KEY){
+            int change = player.getY() + player.getMovementSpeed();
+            if(change <= super.getWindowHeight())
+                player.setY(change);
+        }
+        else if(key == RIGHT_KEY){
+            int change = player.getX() + player.getMovementSpeed();
+            if(change >= 0)
+                player.setX(player.getX() + player.getMovementSpeed());
+        }
+        else if(key == LEFT_KEY){
+            int change = player.getX() - player.getMovementSpeed();
+            if(change >= 0)
+                player.setX(player.getX() - player.getMovementSpeed());
+        }
 
     // Handles reacting to a single mouse click in the game window
     protected MouseEvent reactToMouseClick(MouseEvent click) {
