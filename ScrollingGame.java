@@ -126,9 +126,13 @@ public class ScrollingGame extends GameEngine {
 
             if (key == KEY_PAUSE_GAME) {
                 isPaused = true;
-            } else if (key == SPEED_DOWN_KEY) {
+            }
+
+            else if (key == SPEED_DOWN_KEY) {
                 player.setMovementSpeed(player.getMovementSpeed() + SPEED_CHANGE_INTERVAL);
-            } else if (key == SPEED_UP_KEY) {
+            }
+
+            else if (key == SPEED_UP_KEY) {
                 player.setMovementSpeed(player.getMovementSpeed() - SPEED_CHANGE_INTERVAL);
             }
 
