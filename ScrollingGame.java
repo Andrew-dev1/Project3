@@ -115,8 +115,6 @@ public class ScrollingGame extends GameEngine {
     
     //Reacts to a single key press on the keyboard
     protected void reactToKey(int key){
-        System.out.println(key);
-        System.out.println(getSplashImage());
         //if a splash screen is up, only react to the advance splash key
         if (getSplashImage() != null){
             if (key == ADVANCE_SPLASH_KEY)

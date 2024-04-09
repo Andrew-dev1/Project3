@@ -34,8 +34,7 @@ public class Player extends Entity {
    //movement speed is the numebr of pixels the Player Entity
    //moves when an arrow key is pressed
    public int getMovementSpeed(){
-       //implement me!
-       throw new IllegalStateException("Hey 102 Student! You need to implement getMovementSpeed in Player.java!");
+       return movementSpeed;
    }
    
    public void setMovementSpeed(int newSpeed){
