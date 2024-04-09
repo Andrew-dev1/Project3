@@ -119,39 +119,41 @@ public class ScrollingGame extends GameEngine {
                 isPaused = false;
             }
         } else {
-            for(int moveKey: MOVEMENT_KEYS){
-                if(key == moveKey)
+            for (int moveKey : MOVEMENT_KEYS) {
+                if (key == moveKey)
                     moving(key);
             }
-           
+
             if (key == KEY_PAUSE_GAME) {
                 isPaused = true;
+            } else if (key == SPEED_DOWN_KEY) {
+                player.setMovementSpeed(player.getMovementSpeed() + SPEED_CHANGE_INTERVAL);
+            } else if (key == SPEED_UP_KEY) {
+                player.setMovementSpeed(player.getMovementSpeed() - SPEED_CHANGE_INTERVAL);
             }
 
         }
     }
 
-    public void moving(int key){
-        if(key == UP_KEY){
+    public void moving(int key) {
+        if (key == UP_KEY) {
             int change = player.getY() - player.getMovementSpeed();
-            if(change >= 0)
+            if (change >= 0)
                 player.setY(change);
-        }
-        else if(key == DOWN_KEY){
+        } else if (key == DOWN_KEY) {
             int change = player.getY() + player.getMovementSpeed();
-            if(change <= super.getWindowHeight())
+            if (change <= super.getWindowHeight())
                 player.setY(change);
-        }
-        else if(key == RIGHT_KEY){
+        } else if (key == RIGHT_KEY) {
             int change = player.getX() + player.getMovementSpeed();
-            if(change >= 0)
+            if (change >= 0)
                 player.setX(player.getX() + player.getMovementSpeed());
-        }
-        else if(key == LEFT_KEY){
+        } else if (key == LEFT_KEY) {
             int change = player.getX() - player.getMovementSpeed();
-            if(change >= 0)
+            if (change >= 0)
                 player.setX(player.getX() - player.getMovementSpeed());
         }
+    }
 
     // Handles reacting to a single mouse click in the game window
     protected MouseEvent reactToMouseClick(MouseEvent click) {
