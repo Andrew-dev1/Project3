@@ -57,6 +57,9 @@ public class ScrollingGame extends GameEngine {
         player = new Player(STARTING_PLAYER_X, STARTING_PLAYER_Y);
         displayList.add(player); 
         score = 0;
+        System.out.println("hello");
+
+        super.setSplashImage(INTRO_SPLASH_FILE);
     }
     
     //Called on each game tick
@@ -68,7 +71,7 @@ public class ScrollingGame extends GameEngine {
             spawnEntities();
         }
         //Update the title text on the top of the window
-        setTitleText("You need to put something here..."); 
+        setTitleText("Something is here"); 
     }
     
     
@@ -105,14 +108,15 @@ public class ScrollingGame extends GameEngine {
     //Determines if the game is over or not
     //Game can be over due to either a win or lose state
     protected boolean isGameOver(){
-        
-        return false;   //****   placeholder... implement me!   ****
-       
+        if(player.getHP() == 0)
+            return true;   //****   placeholder... implement me!   ****
+       return false;
     }
     
     //Reacts to a single key press on the keyboard
     protected void reactToKey(int key){
-        
+        System.out.println(key);
+        System.out.println(getSplashImage());
         //if a splash screen is up, only react to the advance splash key
         if (getSplashImage() != null){
             if (key == ADVANCE_SPLASH_KEY)
