@@ -144,18 +144,28 @@ public class ScrollingGame extends GameEngine {
             int change = player.getY() - player.getMovementSpeed();
             if (change >= 0)
                 player.setY(change);
+            else
+                player.setY(0);
         } else if (key == DOWN_KEY) {
             int change = player.getY() + player.getMovementSpeed();
-            if (change <= super.getWindowHeight())
+            int lowerEdge = super.getWindowHeight()-player.getHeight();
+            if (change <= lowerEdge)
                 player.setY(change);
+            else
+                player.setY(lowerEdge);
         } else if (key == RIGHT_KEY) {
             int change = player.getX() + player.getMovementSpeed();
-            if (change >= 0)
+            int rightEdge = super.getWindowWidth() - player.getWidth(); 
+            if (change <= rightEdge)
                 player.setX(player.getX() + player.getMovementSpeed());
+            else
+                player.setX(rightEdge);
         } else if (key == LEFT_KEY) {
             int change = player.getX() - player.getMovementSpeed();
             if (change >= 0)
                 player.setX(player.getX() - player.getMovementSpeed());
+            else
+                player.setX(0);
         }
     }
 
