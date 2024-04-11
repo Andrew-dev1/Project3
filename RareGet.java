@@ -14,7 +14,12 @@ public class RareGet extends Get{
         super(x, y, RARE_GET_IMAGE_FILE);  
     }
     
-    //I'm missing something here...
-    //What's special about RareGets?
+
+
+    
+    //Colliding with a RareGet does not affect the player's HP
+    public int getDamage(){
+        return 1;
+    }
    
 }
