@@ -117,7 +117,7 @@ public class ScrollingGame extends GameEngine {
     // Determines if the game is over or not
     // Game can be over due to either a win or lose state
     protected boolean isGameOver() {
-        if (player.getHP() == 0)
+        if (player.getHP() == 0 || score == SCORE_TO_WIN)
             return true; 
         return false;
     }
