@@ -102,10 +102,10 @@ public class ScrollingGame extends GameEngine {
     // Spawn new Entities on the right edge of the game board
     private void spawnEntities() {
         int loopnumber = rand.nextInt(5);
-        Entity n;
         int start = 0;
         while (start < loopnumber) {
             int randnumber = rand.nextInt(8);
+            Entity n;
             if (randnumber < 3) {
                 n = new Get(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
             } else if (randnumber < 7) {
@@ -113,19 +113,18 @@ public class ScrollingGame extends GameEngine {
             } else {
                 n = new RareGet(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
             }
-            if (displayList.size() < 1) {
-                displayList.add(n);
-                start++;
-            } else {
-                for (Entity e : displayList) {
-                    if (!n.isCollidingWith(e)) {
-                        displayList.add(n);
-                        start++;
-                    }
+            boolean collision = false;
+            for (Entity e : displayList) {
+                if (n.isCollidingWith(e)) {
+                    collision = true;
+                    break;
                 }
             }
+            if (!collision) {
+                displayList.add(n);
+                start++;
+            }
         }
-
     }
 
     // Called once the game is over, performs any end-of-game operations
