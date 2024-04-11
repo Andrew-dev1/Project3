@@ -67,13 +67,24 @@ public class ScrollingGame extends GameEngine {
             spawnEntities();
         }
         // Update the title text on the top of the window
-        setTitleText("Something is here");
+        setTitleText("HP:" + player.getHP() + ", Score: "+ score); // fix
     }
 
     // Scroll all scrollable entities per their respective scroll speeds
     private void scrollEntities() {
+        for(Entity thingy: displayList){
+            if(thingy instanceof Scrollable){
+                ((Scrollable)thingy).scroll();
+                if(thingy.getX()+ thingy.getWidth()< 0){
+                    toBeGC.add(thingy);
+                }
+            }
+            if(thingy instanceof Consumable){
+                handlePlayerCollision((Consumable) thingy);
+            }
+            
+        }
 
-        // **** implement me! ****
 
     }
 
@@ -81,14 +92,19 @@ public class ScrollingGame extends GameEngine {
     // consumable
     private void handlePlayerCollision(Consumable collidedWith) {
 
-        // **** implement me! ****
+        if(player.isCollidingWith((Entity)collidedWith)){
+            score += collidedWith.getPoints();
+            player.setHP(player.getHP() + collidedWith.getDamage());
+            toBeGC.add((Entity)collidedWith);
+        }
 
     }
 
     // Spawn new Entities on the right edge of the game board
     private void spawnEntities() {
-
-        // **** implement me! ****
+        Get n = new Get(getWindowWidth(), rand.nextInt(getWindowHeight()-Get.GET_HEIGHT));
+        displayList.add(n);
+        System.out.println(displayList.size());
 
     }
 
@@ -102,7 +118,7 @@ public class ScrollingGame extends GameEngine {
     // Game can be over due to either a win or lose state
     protected boolean isGameOver() {
         if (player.getHP() == 0)
-            return true; // **** placeholder... implement me! ****
+            return true; 
         return false;
     }
 
@@ -129,11 +145,13 @@ public class ScrollingGame extends GameEngine {
             }
 
             else if (key == SPEED_DOWN_KEY) {
-                player.setMovementSpeed(player.getMovementSpeed() + SPEED_CHANGE_INTERVAL);
+                if(getGameSpeed() > 20)
+                    setGameSpeed(getGameSpeed()-SPEED_CHANGE_INTERVAL);
             }
 
             else if (key == SPEED_UP_KEY) {
-                player.setMovementSpeed(player.getMovementSpeed() - SPEED_CHANGE_INTERVAL);
+                if(getGameSpeed() < MAX_GAME_SPEED)
+                    setGameSpeed(getGameSpeed() + SPEED_CHANGE_INTERVAL);
             }
 
         }

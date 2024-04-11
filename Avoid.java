@@ -36,8 +36,7 @@ public class Avoid extends Entity implements Consumable, Scrollable {
 
     // Colliding with an Avoid does not affect the player's score
     public int getPoints() {
-        // implement me!
-        throw new IllegalStateException("Hey 102 Student! You need to implement getPoints in Avoid.java!");
+        return 0;
     }
 
     // Colliding with an Avoid Reduces players HP by 1

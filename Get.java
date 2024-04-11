@@ -37,8 +37,7 @@ public class Get extends Entity implements Consumable, Scrollable {
     
     //Move the Get left by its scroll speed
     public void scroll(){
-       //implement me!
-       throw new IllegalStateException("Hey 102 Student! You need to implement scroll in Get.java!");
+        setX(getX() - this.scrollSpeed);
     }
     
     //Colliding with a Get increases the player's score by the specified amount

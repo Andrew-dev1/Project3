@@ -85,8 +85,10 @@ public abstract class Entity {
     //Checks to see if this Entity is colliding with the argument Entity
     //Meaning any part of the two Entities are overlapping
     public boolean isCollidingWith(Entity other){
-        //implement me!
-        throw new IllegalStateException("Hey 102 Student! You need to implement isCollidingWith in Entity!");    
+
+        int x2 = other.getX();
+        int y2 = other.getY();
+        return containsPoint(x2, y2) || containsPoint(x2+other.getWidth(), y2) || containsPoint(x2, y2 + other.getHeight()) || containsPoint(x2 + other.getWidth(), y2 + getHeight());
     }
     
     //Checks to see if this Entity if argument x,y coordinate is inside 
