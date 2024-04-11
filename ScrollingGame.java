@@ -102,29 +102,43 @@ public class ScrollingGame extends GameEngine {
     // Spawn new Entities on the right edge of the game board
     private void spawnEntities() {
         int loopnumber = rand.nextInt(5);
+        Entity n;
         int start = 0;
+        ArrayList<Entity> spawns = new ArrayList<Entity>();
+
         while (start < loopnumber) {
-            int randnumber = rand.nextInt(8);
-            Entity n;
-            if (randnumber < 3) {
+            int randnumber = rand.nextInt(50);
+            if (randnumber < 20) {
                 n = new Get(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
-            } else if (randnumber < 7) {
-                n = new Avoid(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
+            } else if (randnumber < 46) {
+                n = new Avoid(getWindowWidth(), rand.nextInt(getWindowHeight() - Avoid.AVOID_HEIGHT));
             } else {
                 n = new RareGet(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
             }
-            boolean collision = false;
-            for (Entity e : displayList) {
-                if (n.isCollidingWith(e)) {
-                    collision = true;
-                    break;
+
+            if (spawns.size() > 0) {
+                while(isValidSpot(spawns,n)){
+                    if(n instanceof Avoid)
+                        n.setY(rand.nextInt(getWindowHeight() - Avoid.AVOID_HEIGHT));
+                    else
+                        n.setY(rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
                 }
             }
-            if (!collision) {
-                displayList.add(n);
-                start++;
-            }
+            spawns.add(n);
+            start++;
         }
+        for(Entity spawn:spawns){
+            displayList.add(spawn);
+        }
+
+    }
+
+    public boolean isValidSpot(ArrayList<Entity> list, Entity checked){
+        for (Entity e : list) {
+            if(checked.isCollidingWith(e))
+                return true; 
+        }
+        return false;
     }
 
     // Called once the game is over, performs any end-of-game operations
