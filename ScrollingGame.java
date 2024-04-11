@@ -67,24 +67,23 @@ public class ScrollingGame extends GameEngine {
             spawnEntities();
         }
         // Update the title text on the top of the window
-        setTitleText("HP:" + player.getHP() + ", Score: "+ score); // fix
+        setTitleText("HP:" + player.getHP() + ", Score: " + score); // fix
     }
 
     // Scroll all scrollable entities per their respective scroll speeds
     private void scrollEntities() {
-        for(Entity thingy: displayList){
-            if(thingy instanceof Scrollable){
-                ((Scrollable)thingy).scroll();
-                if(thingy.getX()+ thingy.getWidth()< 0){
+        for (Entity thingy : displayList) {
+            if (thingy instanceof Scrollable) {
+                ((Scrollable) thingy).scroll();
+                if (thingy.getX() + thingy.getWidth() < 0) {
                     toBeGC.add(thingy);
                 }
             }
-            if(thingy instanceof Consumable){
+            if (thingy instanceof Consumable) {
                 handlePlayerCollision((Consumable) thingy);
             }
-            
-        }
 
+        }
 
     }
 
@@ -92,19 +91,40 @@ public class ScrollingGame extends GameEngine {
     // consumable
     private void handlePlayerCollision(Consumable collidedWith) {
 
-        if(player.isCollidingWith((Entity)collidedWith)){
+        if (player.isCollidingWith((Entity) collidedWith)) {
             score += collidedWith.getPoints();
             player.setHP(player.getHP() + collidedWith.getDamage());
-            toBeGC.add((Entity)collidedWith);
+            toBeGC.add((Entity) collidedWith);
         }
 
     }
 
     // Spawn new Entities on the right edge of the game board
     private void spawnEntities() {
-        Get n = new Get(getWindowWidth(), rand.nextInt(getWindowHeight()-Get.GET_HEIGHT));
-        displayList.add(n);
-        System.out.println(displayList.size());
+        int loopnumber = rand.nextInt(5);
+        Entity n;
+        int start = 0;
+        while (start < loopnumber) {
+            int randnumber = rand.nextInt(8);
+            if (randnumber < 3) {
+                n = new Get(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
+            } else if (randnumber < 7) {
+                n = new Avoid(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
+            } else {
+                n = new RareGet(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
+            }
+            if (displayList.size() < 1) {
+                displayList.add(n);
+                start++;
+            } else {
+                for (Entity e : displayList) {
+                    if (!n.isCollidingWith(e)) {
+                        displayList.add(n);
+                        start++;
+                    }
+                }
+            }
+        }
 
     }
 
@@ -118,7 +138,7 @@ public class ScrollingGame extends GameEngine {
     // Game can be over due to either a win or lose state
     protected boolean isGameOver() {
         if (player.getHP() == 0 || score == SCORE_TO_WIN)
-            return true; 
+            return true;
         return false;
     }
 
@@ -145,12 +165,12 @@ public class ScrollingGame extends GameEngine {
             }
 
             else if (key == SPEED_DOWN_KEY) {
-                if(getGameSpeed() > 20)
-                    setGameSpeed(getGameSpeed()-SPEED_CHANGE_INTERVAL);
+                if (getGameSpeed() > 20)
+                    setGameSpeed(getGameSpeed() - SPEED_CHANGE_INTERVAL);
             }
 
             else if (key == SPEED_UP_KEY) {
-                if(getGameSpeed() < MAX_GAME_SPEED)
+                if (getGameSpeed() < MAX_GAME_SPEED)
                     setGameSpeed(getGameSpeed() + SPEED_CHANGE_INTERVAL);
             }
 
@@ -166,14 +186,14 @@ public class ScrollingGame extends GameEngine {
                 player.setY(0);
         } else if (key == DOWN_KEY) {
             int change = player.getY() + player.getMovementSpeed();
-            int lowerEdge = super.getWindowHeight()-player.getHeight();
+            int lowerEdge = super.getWindowHeight() - player.getHeight();
             if (change <= lowerEdge)
                 player.setY(change);
             else
                 player.setY(lowerEdge);
         } else if (key == RIGHT_KEY) {
             int change = player.getX() + player.getMovementSpeed();
-            int rightEdge = super.getWindowWidth() - player.getWidth(); 
+            int rightEdge = super.getWindowWidth() - player.getWidth();
             if (change <= rightEdge)
                 player.setX(player.getX() + player.getMovementSpeed());
             else
