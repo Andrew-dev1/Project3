@@ -101,24 +101,32 @@ public class ScrollingGame extends GameEngine {
 
     // Spawn new Entities on the right edge of the game board
     private void spawnEntities() {
-        int loopnumber = rand.nextInt(5);
+        int loopnumber = rand.nextInt(4);
         Entity n;
         int start = 0;
         ArrayList<Entity> spawns = new ArrayList<Entity>();
 
         while (start < loopnumber) {
+            int getnumber = 1;
             int randnumber = rand.nextInt(50);
             if (randnumber < 20) {
-                n = new Get(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
-            } else if (randnumber < 46) {
-                n = new Avoid(getWindowWidth(), rand.nextInt(getWindowHeight() - Avoid.AVOID_HEIGHT));
+                if (getnumber > 0) {
+                    n = new Get(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
+                    int rarenumber = rand.nextInt(10);
+                    if (rarenumber == 0) {
+                        n = new RareGet(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
+                    }
+                    getnumber--;
+                } else {
+                    n = new Avoid(getWindowWidth(), rand.nextInt(getWindowHeight() - Avoid.AVOID_HEIGHT));
+                }
             } else {
-                n = new RareGet(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
+                n = new Avoid(getWindowWidth(), rand.nextInt(getWindowHeight() - Avoid.AVOID_HEIGHT));
             }
 
             if (spawns.size() > 0) {
-                while(isValidSpot(spawns,n)){
-                    if(n instanceof Avoid)
+                while (isValidSpot(spawns, n)) {
+                    if (n instanceof Avoid)
                         n.setY(rand.nextInt(getWindowHeight() - Avoid.AVOID_HEIGHT));
                     else
                         n.setY(rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
@@ -127,24 +135,27 @@ public class ScrollingGame extends GameEngine {
             spawns.add(n);
             start++;
         }
-        for(Entity spawn:spawns){
+        for (Entity spawn : spawns) {
             displayList.add(spawn);
         }
 
     }
 
-    public boolean isValidSpot(ArrayList<Entity> list, Entity checked){
+    public boolean isValidSpot(ArrayList<Entity> list, Entity checked) {
         for (Entity e : list) {
-            if(checked.isCollidingWith(e))
-                return true; 
+            if (checked.isCollidingWith(e))
+                return true;
         }
         return false;
     }
 
     // Called once the game is over, performs any end-of-game operations
     protected void postgame() {
-
-        super.setTitleText("Game is over! You need to do something here!");
+        if (player.getHP() == 0) {
+            super.setTitleText("Game is over! You LOSE!");
+        } else {
+            super.setTitleText("Game is over! You WIN!");
+        }
     }
 
     // Determines if the game is over or not
