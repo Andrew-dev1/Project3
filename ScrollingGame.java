@@ -53,8 +53,6 @@ public class ScrollingGame extends GameEngine {
         player = new Player(STARTING_PLAYER_X, STARTING_PLAYER_Y);
         displayList.add(player);
         score = 0;
-        System.out.println("hello");
-
         super.setSplashImage(INTRO_SPLASH_FILE);
     }
 
@@ -62,12 +60,13 @@ public class ScrollingGame extends GameEngine {
     protected void updateGame() {
         // scroll all scrollable Entities on the game board
         scrollEntities();
+
         // Spawn new entities only at a certain interval
         if (super.getTicksElapsed() % SPAWN_INTERVAL == 0) {
             spawnEntities();
         }
         // Update the title text on the top of the window
-        setTitleText("HP:" + player.getHP() + ", Score: " + score); // fix
+        setTitleText("HP:" + player.getHP() + ", Score: " + score);
     }
 
     // Scroll all scrollable entities per their respective scroll speeds
@@ -89,7 +88,7 @@ public class ScrollingGame extends GameEngine {
 
     // Called whenever it has been determined that the Player collided with a
     // consumable
-    private void handlePlayerCollision(Consumable collidedWith) {
+    public void handlePlayerCollision(Consumable collidedWith) {
 
         if (player.isCollidingWith((Entity) collidedWith)) {
             score += collidedWith.getPoints();
@@ -107,29 +106,11 @@ public class ScrollingGame extends GameEngine {
         ArrayList<Entity> spawns = new ArrayList<Entity>();
 
         while (start < loopnumber) {
-            int getnumber = 1;
-            int randnumber = rand.nextInt(50);
-            if (randnumber < 20) {
-                if (getnumber > 0) {
-                    n = new Get(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
-                    int rarenumber = rand.nextInt(10);
-                    if (rarenumber == 0) {
-                        n = new RareGet(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
-                    }
-                    getnumber--;
-                } else {
-                    n = new Avoid(getWindowWidth(), rand.nextInt(getWindowHeight() - Avoid.AVOID_HEIGHT));
-                }
-            } else {
-                n = new Avoid(getWindowWidth(), rand.nextInt(getWindowHeight() - Avoid.AVOID_HEIGHT));
-            }
+            n = generateRandomEntity();
 
             if (spawns.size() > 0) {
                 while (isValidSpot(spawns, n)) {
-                    if (n instanceof Avoid)
-                        n.setY(rand.nextInt(getWindowHeight() - Avoid.AVOID_HEIGHT));
-                    else
-                        n.setY(rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
+                    n.setY(rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
                 }
             }
             spawns.add(n);
@@ -138,12 +119,27 @@ public class ScrollingGame extends GameEngine {
         for (Entity spawn : spawns) {
             displayList.add(spawn);
         }
-
+    }
+    
+    public Entity generateRandomEntity(){
+        Entity n;
+        int randnumber = rand.nextInt(50);
+            if (randnumber < 20) {
+                n = new Get(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
+            } else if (randnumber < 46) {
+                n = new Avoid(getWindowWidth(), rand.nextInt(getWindowHeight() - Avoid.AVOID_HEIGHT));
+            } else {
+                n = new RareGet(getWindowWidth(), rand.nextInt(getWindowHeight() - Get.GET_HEIGHT));
+            }
+        return n;
     }
 
     public boolean isValidSpot(ArrayList<Entity> list, Entity checked) {
         for (Entity e : list) {
-            if (checked.isCollidingWith(e))
+            int upperY = e.getY();
+            int lowerY = e.getY() + e.getHeight();
+
+            if (checked.isCollidingWith(e) || (upperY <= checked.getY() && lowerY >= checked.getY()))
                 return true;
         }
         return false;
@@ -161,7 +157,7 @@ public class ScrollingGame extends GameEngine {
     // Determines if the game is over or not
     // Game can be over due to either a win or lose state
     protected boolean isGameOver() {
-        if (player.getHP() == 0 || score == SCORE_TO_WIN)
+        if (player.getHP() <= 0 || score >= SCORE_TO_WIN)
             return true;
         return false;
     }

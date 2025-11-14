@@ -24,7 +24,11 @@ public class Player extends Entity {
    }
    
    public Player(int x, int y){
-      super(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_IMAGE_FILE);  
+      this(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_IMAGE_FILE);  
+   }
+   
+   public Player(int x, int y, int width, int height, String filename){
+      super(x, y, width, height, filename);
       this.hp = STARTING_HP;
       this.movementSpeed = DEFAULT_MOVEMENT_SPEED;
    }

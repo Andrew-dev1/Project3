@@ -1,29 +1,29 @@
 //Gets are entities that the player wants to collide with, as they increase
 //their score.
-public class Get extends Entity implements Consumable, Scrollable {
+public class Elixir extends Entity implements Consumable, Scrollable {
     
     //Location of image file to be drawn for a Get
-    public static final String GET_IMAGE_FILE = "game_assets/get.gif";
+    public static final String ELIXIR_IMAGE_FILE = "game_assets/Elixir.png";
     //Dimensions of the Get  
-    public static final int GET_WIDTH = LiGame.getWidth()/14;
-    public static final int GET_HEIGHT = LiGame.getWidth()/14;
+    public static final int ELIXIR_WIDTH = LiGame.getWidth()/14;
+    public static final int ELIXIR_HEIGHT = LiGame.getWidth()/14;
     //Speed that the Get moves (in pixels) each time the game scrolls
-    public static final int GET_DEFAULT_SCROLL_SPEED = 5;
-    //Amount of points received when player collides with a Get
-    public static final int GET_POINT_VALUE = 20;
+    public static final int ELIXIR_DEFAULT_SCROLL_SPEED = 5;
+    //Amount of points received when player collides with a Elixir
+    public static final int ELIXIR_POINT_VALUE = 5;
     
-    private int scrollSpeed = GET_DEFAULT_SCROLL_SPEED;
+    private int scrollSpeed = ELIXIR_DEFAULT_SCROLL_SPEED;
     
-    public Get(){
+    public Elixir(){
         this(0, 0);
     }
     
-    public Get(int x, int y){
-        super(x, y, GET_WIDTH, GET_HEIGHT, GET_IMAGE_FILE);  
+    public Elixir(int x, int y){
+        super(x, y, ELIXIR_WIDTH, ELIXIR_HEIGHT, ELIXIR_IMAGE_FILE);  
     }
-    
-    public Get(int x, int y, String imageFileName){
-        super(x, y, GET_WIDTH, GET_HEIGHT, imageFileName);
+
+    public Elixir(int x, int y, String filename){
+        super(x, y, ELIXIR_WIDTH, ELIXIR_HEIGHT, filename);  
     }
     
     public int getScrollSpeed(){
@@ -42,7 +42,7 @@ public class Get extends Entity implements Consumable, Scrollable {
     
     //Colliding with a Get increases the player's score by the specified amount
     public int getPoints(){
-        return GET_POINT_VALUE;
+        return ELIXIR_POINT_VALUE;
     }
     
     //Colliding with a Get does not affect the player's HP
